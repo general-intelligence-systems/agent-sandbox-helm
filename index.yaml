@@ -1,0 +1,52 @@
+apiVersion: v1
+entries:
+  agent-sandbox:
+  - apiVersion: v2
+    appVersion: 0.2.1
+    created: "2026-03-23T21:27:43.486942601Z"
+    description: Kubernetes Agent Sandbox - isolated, stateful, singleton workloads
+      for AI agent runtimes. Auto-generated from upstream releases.
+    digest: 985bcc12a3973cd46900064d019c93271beb8ed54d221a1c9796d9c5af505d66
+    home: https://github.com/kubernetes-sigs/agent-sandbox
+    keywords:
+    - kubernetes
+    - sandbox
+    - ai
+    - agents
+    maintainers:
+    - name: general-intelligence-systems
+      url: https://github.com/general-intelligence-systems
+    name: agent-sandbox
+    sources:
+    - https://github.com/kubernetes-sigs/agent-sandbox
+    - https://github.com/general-intelligence-systems/agent-sandbox-helm
+    type: application
+    urls:
+    - https://github.com/general-intelligence-systems/agent-sandbox-helm/releases/download/agent-sandbox-0.2.1/agent-sandbox-0.2.1.tgz
+    version: 0.2.1
+  agent-sandbox-extensions:
+  - apiVersion: v2
+    appVersion: 0.2.1
+    created: "2026-03-23T21:27:43.711616877Z"
+    description: Agent Sandbox Extensions - SandboxTemplate, SandboxClaim, and SandboxWarmPool
+      CRDs. Auto-generated from upstream releases.
+    digest: 129d52731703aaa4c54a2f50f2b984bfb1a93ddc1fef2bed2d84fabb395a5d26
+    home: https://github.com/kubernetes-sigs/agent-sandbox
+    keywords:
+    - kubernetes
+    - sandbox
+    - ai
+    - agents
+    - extensions
+    maintainers:
+    - name: general-intelligence-systems
+      url: https://github.com/general-intelligence-systems
+    name: agent-sandbox-extensions
+    sources:
+    - https://github.com/kubernetes-sigs/agent-sandbox
+    - https://github.com/general-intelligence-systems/agent-sandbox-helm
+    type: application
+    urls:
+    - https://github.com/general-intelligence-systems/agent-sandbox-helm/releases/download/agent-sandbox-extensions-0.2.1/agent-sandbox-extensions-0.2.1.tgz
+    version: 0.2.1
+generated: "2026-03-23T21:27:43.71162414Z"
