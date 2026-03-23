@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "agent-sandbox.fullname" . }}-agent-sandbox-controller
+  labels:
+    app: agent-sandbox-controller
+  {{- include "agent-sandbox.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.agentSandboxController.type }}
+  selector:
+    app: agent-sandbox-controller
+    {{- include "agent-sandbox.selectorLabels" . | nindent 4 }}
+  ports:
+  {{- .Values.agentSandboxController.ports | toYaml | nindent 2 }}

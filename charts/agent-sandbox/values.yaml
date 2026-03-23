@@ -1,0 +1,23 @@
+agentSandboxController:
+  agentSandboxController:
+    args:
+    - --leader-elect=true
+    image:
+      repository: registry.k8s.io/agent-sandbox/agent-sandbox-controller
+      tag: v0.2.1
+  nodeSelector: {}
+  ports:
+  - name: metrics
+    port: 8080
+    protocol: TCP
+    targetPort: metrics
+  replicas: 1
+  tolerations: []
+  topologySpreadConstraints: []
+  type: ClusterIP
+kubernetesClusterDomain: cluster.local
+serviceAccount:
+  annotations: {}
+  automount: true
+  create: true
+  name: ""

@@ -1,0 +1,21 @@
+apiVersion: v2
+name: agent-sandbox-extensions
+description: >-
+  Agent Sandbox Extensions - SandboxTemplate, SandboxClaim, and
+  SandboxWarmPool CRDs. Auto-generated from upstream releases.
+type: application
+version: 0.2.1
+appVersion: "0.2.1"
+home: https://github.com/kubernetes-sigs/agent-sandbox
+sources:
+  - https://github.com/kubernetes-sigs/agent-sandbox
+  - https://github.com/general-intelligence-systems/agent-sandbox-helm
+keywords:
+  - kubernetes
+  - sandbox
+  - ai
+  - agents
+  - extensions
+maintainers:
+  - name: general-intelligence-systems
+    url: https://github.com/general-intelligence-systems

@@ -1,0 +1,13 @@
+agentSandboxController:
+  agentSandboxController:
+    args:
+    - --leader-elect=true
+    - --extensions
+    image:
+      repository: registry.k8s.io/agent-sandbox/agent-sandbox-controller
+      tag: v0.2.1
+  nodeSelector: {}
+  replicas: 1
+  tolerations: []
+  topologySpreadConstraints: []
+kubernetesClusterDomain: cluster.local
