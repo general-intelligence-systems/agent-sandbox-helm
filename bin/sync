@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Fetch the latest non-prerelease tag from upstream
+LATEST=$(gh release view --repo kubernetes-sigs/agent-sandbox --json tagName -q .tagName 2>/dev/null || true)
+
+if [[ -z "$LATEST" ]]; then
+  echo "Error: could not determine latest upstream release" >&2
+  exit 1
+fi
+
+CHART_VERSION="${LATEST#v}"
+echo "Upstream release: ${LATEST} (chart version: ${CHART_VERSION})"
+
+# Skip if we already have this version tagged
+if git rev-parse "${LATEST}" >/dev/null 2>&1; then
+  echo "Tag ${LATEST} already exists, nothing to do."
+  exit 0
+fi
+
+# --- Install helmify ---
+HELMIFY_VERSION=$(gh release view --repo arttor/helmify --json tagName -q .tagName)
+HELMIFY_URL="https://github.com/arttor/helmify/releases/download/${HELMIFY_VERSION}/helmify_Linux_x86_64.tar.gz"
+echo "Installing helmify ${HELMIFY_VERSION}..."
+curl -sfL "$HELMIFY_URL" | tar xz -C /tmp helmify
+HELMIFY=/tmp/helmify
+
+# --- Download upstream manifests ---
+BASE_URL="https://github.com/kubernetes-sigs/agent-sandbox/releases/download/${LATEST}"
+mkdir -p /tmp/agent-sandbox-manifests
+
+echo "Downloading manifest.yaml..."
+curl -sfL -o /tmp/agent-sandbox-manifests/manifest.yaml "${BASE_URL}/manifest.yaml"
+
+echo "Downloading extensions.yaml..."
+curl -sfL -o /tmp/agent-sandbox-manifests/extensions.yaml "${BASE_URL}/extensions.yaml"
+
+# --- Generate charts with helmify ---
+rm -rf charts
+mkdir -p charts
+
+echo "Generating agent-sandbox chart..."
+cat /tmp/agent-sandbox-manifests/manifest.yaml \
+  | $HELMIFY -crd-dir charts/agent-sandbox
+
+echo "Generating agent-sandbox-extensions chart..."
+cat /tmp/agent-sandbox-manifests/extensions.yaml \
+  | $HELMIFY -crd-dir charts/agent-sandbox-extensions
+
+# --- Patch Chart.yaml with correct version and metadata ---
+cat > charts/agent-sandbox/Chart.yaml <<EOF
+apiVersion: v2
+name: agent-sandbox
+description: >-
+  Kubernetes Agent Sandbox - isolated, stateful, singleton workloads
+  for AI agent runtimes. Auto-generated from upstream releases.
+type: application
+version: ${CHART_VERSION}
+appVersion: "${CHART_VERSION}"
+home: https://github.com/kubernetes-sigs/agent-sandbox
+sources:
+  - https://github.com/kubernetes-sigs/agent-sandbox
+  - https://github.com/general-intelligence-systems/agent-sandbox-helm
+keywords:
+  - kubernetes
+  - sandbox
+  - ai
+  - agents
+maintainers:
+  - name: general-intelligence-systems
+    url: https://github.com/general-intelligence-systems
+EOF
+
+cat > charts/agent-sandbox-extensions/Chart.yaml <<EOF
+apiVersion: v2
+name: agent-sandbox-extensions
+description: >-
+  Agent Sandbox Extensions - SandboxTemplate, SandboxClaim, and
+  SandboxWarmPool CRDs. Auto-generated from upstream releases.
+type: application
+version: ${CHART_VERSION}
+appVersion: "${CHART_VERSION}"
+home: https://github.com/kubernetes-sigs/agent-sandbox
+sources:
+  - https://github.com/kubernetes-sigs/agent-sandbox
+  - https://github.com/general-intelligence-systems/agent-sandbox-helm
+keywords:
+  - kubernetes
+  - sandbox
+  - ai
+  - agents
+  - extensions
+maintainers:
+  - name: general-intelligence-systems
+    url: https://github.com/general-intelligence-systems
+EOF
+
+# --- Commit and tag ---
+git add charts/
+if git diff --cached --quiet; then
+  echo "No chart changes detected"
+  exit 0
+fi
+
+git commit -m "sync: agent-sandbox ${LATEST}"
+git tag "${LATEST}"
+
+echo "Done: committed and tagged ${LATEST}"
