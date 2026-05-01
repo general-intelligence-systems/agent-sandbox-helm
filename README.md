@@ -1,5 +1,7 @@
 # agent-sandbox-helm
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/general-intelligence-systems/agent-sandbox-helm)
+
 Helm charts for [Agent Sandbox](https://github.com/kubernetes-sigs/agent-sandbox), automatically generated from upstream GitHub releases using [helmify](https://github.com/arttor/helmify).
 
 Agent Sandbox provides a `Sandbox` CRD and controller for managing isolated, stateful, singleton workloads in Kubernetes -- designed for AI agent runtimes.
