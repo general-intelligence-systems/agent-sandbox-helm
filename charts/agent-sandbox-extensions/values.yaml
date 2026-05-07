@@ -5,7 +5,7 @@ agentSandboxController:
     - --extensions
     image:
       repository: registry.k8s.io/agent-sandbox/agent-sandbox-controller
-      tag: v0.4.3
+      tag: v0.4.5
   nodeSelector: {}
   replicas: 1
   tolerations: []

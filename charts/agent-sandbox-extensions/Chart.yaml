@@ -4,8 +4,8 @@ description: >-
   Agent Sandbox Extensions - SandboxTemplate, SandboxClaim, and
   SandboxWarmPool CRDs. Auto-generated from upstream releases.
 type: application
-version: 0.4.3
-appVersion: "0.4.3"
+version: 0.4.5
+appVersion: "0.4.5"
 home: https://github.com/kubernetes-sigs/agent-sandbox
 sources:
   - https://github.com/kubernetes-sigs/agent-sandbox
