@@ -4,7 +4,7 @@ agentSandboxController:
     - --leader-elect=true
     image:
       repository: registry.k8s.io/agent-sandbox/agent-sandbox-controller
-      tag: v0.4.5
+      tag: v0.4.6
   nodeSelector: {}
   ports:
   - name: metrics

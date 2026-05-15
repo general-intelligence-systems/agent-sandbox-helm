@@ -4027,6 +4027,8 @@ spec:
                 required:
                 - spec
                 type: object
+              service:
+                type: boolean
               volumeClaimTemplates:
                 items:
                   properties:
