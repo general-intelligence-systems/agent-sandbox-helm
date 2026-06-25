@@ -1,10 +1,10 @@
-agentSandboxController:
+controller:
   agentSandboxController:
     args:
     - --leader-elect=true
     image:
       repository: registry.k8s.io/agent-sandbox/agent-sandbox-controller
-      tag: v0.4.6
+      tag: v0.5.0
   nodeSelector: {}
   ports:
   - name: metrics
@@ -21,3 +21,10 @@ serviceAccount:
   automount: true
   create: true
   name: ""
+webhookService:
+  ports:
+  - name: webhook
+    port: 443
+    protocol: TCP
+    targetPort: 9443
+  type: ClusterIP

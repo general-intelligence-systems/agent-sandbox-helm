@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "agent-sandbox.fullname" . }}-agent-sandbox-controller
+  name: {{ include "agent-sandbox.fullname" . }}-controller
   labels:
     app: agent-sandbox-controller
   {{- include "agent-sandbox.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.agentSandboxController.replicas }}
+  replicas: {{ .Values.controller.replicas }}
   selector:
     matchLabels:
       app: agent-sandbox-controller
@@ -18,14 +18,12 @@ spec:
       {{- include "agent-sandbox.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - args: {{- toYaml .Values.agentSandboxController.agentSandboxController.args | nindent
-          8 }}
+      - args: {{- toYaml .Values.controller.agentSandboxController.args | nindent 8 }}
         env:
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
-        image: '{{ .Values.agentSandboxController.agentSandboxController.image.repository
-          }}:{{ .Values.agentSandboxController.agentSandboxController.image.tag | default
-          .Chart.AppVersion }}'
+        image: {{ .Values.controller.agentSandboxController.image.repository }}:{{ .Values.controller.agentSandboxController.image.tag
+          | default .Chart.AppVersion }}
         name: agent-sandbox-controller
         ports:
         - containerPort: 8080
@@ -34,10 +32,12 @@ spec:
         - containerPort: 8081
           name: healthz
           protocol: TCP
+        - containerPort: 9443
+          name: webhook
+          protocol: TCP
         resources: {}
-      nodeSelector: {{- toYaml .Values.agentSandboxController.nodeSelector | nindent 8
-        }}
+      nodeSelector: {{- toYaml .Values.controller.nodeSelector | nindent 8 }}
       serviceAccountName: {{ include "agent-sandbox.serviceAccountName" . }}
-      tolerations: {{- toYaml .Values.agentSandboxController.tolerations | nindent 8 }}
-      topologySpreadConstraints: {{- toYaml .Values.agentSandboxController.topologySpreadConstraints
+      tolerations: {{- toYaml .Values.controller.tolerations | nindent 8 }}
+      topologySpreadConstraints: {{- toYaml .Values.controller.topologySpreadConstraints
         | nindent 8 }}

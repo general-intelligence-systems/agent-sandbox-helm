@@ -4,8 +4,8 @@ description: >-
   Kubernetes Agent Sandbox - isolated, stateful, singleton workloads
   for AI agent runtimes. Auto-generated from upstream releases.
 type: application
-version: 0.4.6
-appVersion: "0.4.6"
+version: 0.5.0
+appVersion: "0.5.0"
 home: https://github.com/kubernetes-sigs/agent-sandbox
 sources:
   - https://github.com/kubernetes-sigs/agent-sandbox

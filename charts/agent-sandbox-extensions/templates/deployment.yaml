@@ -35,9 +35,18 @@ spec:
           name: healthz
           protocol: TCP
         resources: {}
+        volumeMounts:
+        - mountPath: /etc/sandbox-config
+          name: config-volume
+          readOnly: true
       nodeSelector: {{- toYaml .Values.agentSandboxController.nodeSelector | nindent 8
         }}
       serviceAccountName: {{ include "agent-sandbox-extensions.serviceAccountName" . }}
       tolerations: {{- toYaml .Values.agentSandboxController.tolerations | nindent 8 }}
       topologySpreadConstraints: {{- toYaml .Values.agentSandboxController.topologySpreadConstraints
         | nindent 8 }}
+      volumes:
+      - configMap:
+          name: agent-sandbox-config
+          optional: true
+        name: config-volume
